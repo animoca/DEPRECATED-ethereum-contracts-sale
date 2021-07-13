@@ -1,0 +1,83 @@
+{
+  "name": "@animoca/ethereum-contracts-sale",
+  "version": "1.0.0",
+  "description": "Solidity sale contracts",
+  "keywords": [
+    "animoca",
+    "ethereum",
+    "solidity",
+    "hardhat",
+    "contracts",
+    "sale"
+  ],
+  "license": "MIT",
+  "author": "Animoca Brands",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:animoca/ethereum-contracts-sale.git"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "postinstall": "animoca-setup-vscode",
+    "lint:js": "eslint \"**/*.{js,ts}\" --no-error-on-unmatched-pattern",
+    "lint:sol": "solhint \"contracts/**/*.sol\" -c node_modules/@animoca/ethereum-contracts-core/.solhint.json",
+    "lint": "run-s lint:js lint:sol",
+    "fix:js": "eslint --fix \"**/*.{js,ts}\" --no-error-on-unmatched-pattern",
+    "fix:sol": "solhint --fix \"contracts/**/*.sol\" -c node_modules/@animoca/ethereum-contracts-core/.solhint.json",
+    "fix": "run-s fix:js fix:sol",
+    "format:js": "prettier --write \"**/*.{ts,js}\"",
+    "format:sol": "prettier --write \"**/*.sol\"",
+    "format": "run-s format:js format:sol",
+    "compile": "hardhat compile --show-stack-traces",
+    "flatten": "hardhat flatten-all --show-stack-traces",
+    "smartcheck": "smartcheck -p contracts &> smartcheck.log",
+    "test": "hardhat test --show-stack-traces",
+    "coverage": "hardhat coverage --show-stack-traces",
+    "ganache": "ganache-cli -g 1000000000",
+    "gas-report": "wait-on tcp:8545 && cross-env REPORT_GAS=true hardhat --network localhost test --show-stack-traces",
+    "doc:sol": "hardhat docgen --show-stack-traces",
+    "doc": "run-s doc:sol",
+    "clean:vscode": "rm -rf .vscode/extensions.json .vscode/launch.json .vscode/settings.json",
+    "clean:compile": "rm -rf cache",
+    "clean:artifacts:soft": "animoca-clean-artifacts",
+    "clean:artifacts:hard": "rm -rf artifacts",
+    "clean:flatten": "rm -rf flattened",
+    "clean:smartcheck": "rm -rf smartcheck*",
+    "clean:coverage": "rm -rf coverage* .coverage*",
+    "clean:doc": "rm -rf docs",
+    "clean:contracts": "run-p clean:compile clean:artifacts:soft clean:flatten clean:smartcheck clean:coverage clean:doc",
+    "clean": "run-s clean:contracts",
+    "run-all:contracts": "run-s format fix clean:contracts clean:artifacts:hard compile flatten smartcheck test coverage doc",
+    "run-all": "run-s run-all:contracts",
+    "prepack:contracts": "run-s clean:artifacts:hard compile clean clean:vscode",
+    "prepack": "run-s prepack:contracts",
+    "release:private": "animoca-release-package private",
+    "release:public": "animoca-release-package public"
+  },
+  "devDependencies": {
+    "@animoca/blockchain-inventory_metadata": "=0.1.0",
+    "@animoca/ethereum-contracts-assets-1.1.2": "npm:@animoca/ethereum-contracts-assets@1.1.2",
+    "@animoca/ethereum-contracts-core": "^1.1.1",
+    "@animoca/ethereum-contracts-core-1.1.1": "npm:@animoca/ethereum-contracts-core@1.1.1",
+    "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
+    "@openzeppelin/contracts": "=3.4.0",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "ethereum-universal-forwarder": "^0.1.4",
+    "hardhat": "^2.4.3"
+  },
+  "peerDependencies": {
+    "@animoca/blockchain-inventory_metadata": "=0.1.0",
+    "@animoca/ethereum-contracts-assets-1.1.2": "npm:@animoca/ethereum-contracts-assets@1.1.2",
+    "@animoca/ethereum-contracts-core": "^1.1.1",
+    "@animoca/ethereum-contracts-core-1.1.1": "npm:@animoca/ethereum-contracts-core@1.1.1",
+    "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
+    "@openzeppelin/contracts": "=3.4.0",
+    "@uniswap/v2-core": "^1.0.1",
+    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "hardhat": "^2.4.3"
+  },
+  "engines": {
+    "node": ">=12.18 <13"
+  }
+}
