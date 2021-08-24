@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../../sale/abstract/OracleSale.sol";
+import {EnumMap, OracleSale} from "../../../sale/abstract/OracleSale.sol";
 
 contract OracleSaleMock is OracleSale {
     event UnderscoreOraclePricingResult(bool handled, bytes32[] pricingData, uint256 totalPrice);
@@ -73,7 +73,6 @@ contract OracleSaleMock is OracleSale {
         bytes memory /*data*/
     ) internal view override returns (uint256 rate) {
         rate = mockConversionRates[fromToken][toToken];
-        // solhint-disable-next-line reason-string
-        require(rate != 0, "OracleSaleMock: undefined conversion rate");
+        require(rate != 0, "Sale: undefined rate");
     }
 }

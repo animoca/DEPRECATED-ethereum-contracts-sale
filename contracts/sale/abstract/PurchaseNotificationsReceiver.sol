@@ -2,8 +2,8 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/introspection/IERC165.sol";
-import "../interfaces/IPurchaseNotificationsReceiver.sol";
+import {IERC165} from "@animoca/ethereum-contracts-core-1.1.2/contracts/introspection/IERC165.sol";
+import {IPurchaseNotificationsReceiver} from "../interfaces/IPurchaseNotificationsReceiver.sol";
 
 /**
  * @title PurchaseNotificationsReceiver

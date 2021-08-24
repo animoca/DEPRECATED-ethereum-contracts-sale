@@ -2,9 +2,9 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./interfaces/IUniswapV2Router.sol";
-import "./interfaces/IUniswapV2Pair.sol";
+import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {IUniswapV2Router} from "./interfaces/IUniswapV2Router.sol";
+import {IUniswapV2Pair} from "./interfaces/IUniswapV2Pair.sol";
 
 /**
  * @title UniswapV2Adapter
@@ -22,10 +22,9 @@ contract UniswapV2Adapter {
     }
 
     function _sortTokens(address tokenA, address tokenB) internal pure returns (address token0, address token1) {
-        // solhint-disable-next-line reason-string
-        require(tokenA != tokenB, "UniswapV2Adapter: IDENTICAL_ADDRESSES");
+        require(tokenA != tokenB, "UniswapV2: same addresses");
         (token0, token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
-        require(token0 != address(0), "UniswapV2Adapter: ZERO_ADDRESS");
+        require(token0 != address(0), "UniswapV2: zero address");
     }
 
     function _pairFor(address tokenA, address tokenB) internal view returns (address pair) {
@@ -75,8 +74,7 @@ contract UniswapV2Adapter {
         address to,
         uint256 deadline
     ) internal returns (uint256 amount) {
-        // solhint-disable-next-line reason-string
-        require(tokenA != tokenB, "UniswapV2Adapter: IDENTICAL_ADDRESSES");
+        require(tokenA != tokenB, "UniswapV2: same addresses");
 
         address[] memory path = new address[](2);
         path[0] = tokenA;
@@ -85,8 +83,7 @@ contract UniswapV2Adapter {
         uint256[] memory amounts;
 
         if (tokenA == uniswapV2Router.WETH()) {
-            // solhint-disable-next-line reason-string
-            require(maxAmountA == msg.value, "UniswapV2Adapter: INVALID_MAX_AMOUNT_IN");
+            require(maxAmountA == msg.value, "UniswapV2: invalid maxAmountIn");
             amounts = uniswapV2Router.swapETHForExactTokens{value: msg.value}(amountB, path, to, deadline);
         } else if (tokenB == uniswapV2Router.WETH()) {
             amounts = uniswapV2Router.swapTokensForExactETH(amountB, maxAmountA, path, to, deadline);

@@ -2,9 +2,8 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/SafeCast.sol";
-import "../../../sale/abstract/SwapSale.sol";
+import {SafeCast} from "@openzeppelin/contracts/utils/SafeCast.sol";
+import {EnumMap, SafeMath, SwapSale} from "../../../sale/abstract/SwapSale.sol";
 
 contract SwapSaleMock is SwapSale {
     using SafeMath for uint256;
@@ -133,7 +132,7 @@ contract SwapSaleMock is SwapSale {
         bytes memory /*data*/
     ) internal view virtual override returns (uint256 fromAmount) {
         uint256 swapRate = mockSwapRates[fromToken][toToken];
-        require(swapRate != 0, "SwapSale: undefined rate");
+        require(swapRate != 0, "Sale: undefined rate");
         fromAmount = toAmount.mul(10**18).div(swapRate);
     }
 

@@ -544,7 +544,7 @@ describe('Sale', function () {
     });
 
     it('reverts if `notificationsReceiver` is not the zero address and is not a contract address', async function () {
-      await expectRevert(doCreateSku.bind(this)({skuNotificationsReceiver: purchaser}), 'Sale: receiver is not a contract');
+      await expectRevert(doCreateSku.bind(this)({skuNotificationsReceiver: purchaser}), 'Sale: non-contract receiver');
     });
 
     it('reverts if the update results in too many SKUs', async function () {

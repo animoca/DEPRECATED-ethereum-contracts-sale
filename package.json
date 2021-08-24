@@ -1,6 +1,6 @@
 {
   "name": "@animoca/ethereum-contracts-sale",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Solidity sale contracts",
   "keywords": [
     "animoca",
@@ -56,26 +56,26 @@
   },
   "devDependencies": {
     "@animoca/blockchain-inventory_metadata": "=0.1.0",
-    "@animoca/ethereum-contracts-assets-1.1.2": "npm:@animoca/ethereum-contracts-assets@1.1.2",
-    "@animoca/ethereum-contracts-core": "^1.1.1",
-    "@animoca/ethereum-contracts-core-1.1.1": "npm:@animoca/ethereum-contracts-core@1.1.1",
+    "@animoca/ethereum-contracts-assets": "^1.1.4",
+    "@animoca/ethereum-contracts-core": "^1.1.2",
+    "@animoca/ethereum-contracts-core-1.1.2": "npm:@animoca/ethereum-contracts-core@1.1.2",
     "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
     "@openzeppelin/contracts": "=3.4.0",
-    "@uniswap/v2-core": "^1.0.1",
-    "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "@uniswap/v2-core": "=1.0.1",
+    "@uniswap/v2-periphery": "=1.1.0-beta.0",
     "ethereum-universal-forwarder": "^0.1.4",
-    "hardhat": "^2.4.3"
+    "hardhat": "^2.6.1"
   },
   "peerDependencies": {
     "@animoca/blockchain-inventory_metadata": "=0.1.0",
-    "@animoca/ethereum-contracts-assets-1.1.2": "npm:@animoca/ethereum-contracts-assets@1.1.2",
-    "@animoca/ethereum-contracts-core": "^1.1.1",
-    "@animoca/ethereum-contracts-core-1.1.1": "npm:@animoca/ethereum-contracts-core@1.1.1",
+    "@animoca/ethereum-contracts-assets": "^1.1.4",
+    "@animoca/ethereum-contracts-core": "^1.1.2",
+    "@animoca/ethereum-contracts-core-1.1.2": "npm:@animoca/ethereum-contracts-core@1.1.2",
     "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
     "@openzeppelin/contracts": "=3.4.0",
-    "@uniswap/v2-core": "^1.0.1",
-    "@uniswap/v2-periphery": "^1.1.0-beta.0",
-    "hardhat": "^2.4.3"
+    "@uniswap/v2-core": "=1.0.1",
+    "@uniswap/v2-periphery": "=1.1.0-beta.0",
+    "hardhat": "^2.6.1"
   },
   "engines": {
     "node": ">=12.18 <13"

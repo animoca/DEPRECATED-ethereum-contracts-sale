@@ -17,7 +17,7 @@ const purchasingScenario = function (sku, userData, overrides = {}) {
         describe('when the payment amount is insufficient', function () {
           it('should revert and not purchase for', async function () {
             await shouldRevertAndNotPurchaseFor.bind(this)(
-              'Sale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: this.recipient,
                 recipient: this.recipient,
@@ -70,7 +70,7 @@ const purchasingScenario = function (sku, userData, overrides = {}) {
             const estimate = await this.contract.estimatePurchase(this.recipient, this.ethTokenAddress, sku, One, userData, {from: this.purchaser});
 
             await shouldRevertAndNotPurchaseFor.bind(this)(
-              'Sale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: this.purchaser,
                 recipient: this.recipient,

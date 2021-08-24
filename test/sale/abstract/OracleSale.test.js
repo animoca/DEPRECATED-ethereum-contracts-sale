@@ -117,7 +117,7 @@ describe('OracleSale', function () {
     });
 
     it('should revert if the oracle does not provide a conversion rate for one of the pairs', async function () {
-      await expectRevert(this.contract.conversionRates([this.ethTokenAddress], userData), 'OracleSaleMock: undefined conversion rate');
+      await expectRevert(this.contract.conversionRates([this.ethTokenAddress], userData), 'Sale: undefined rate');
     });
 
     it(`should return the correct conversion rates`, async function () {
@@ -146,18 +146,12 @@ describe('OracleSale', function () {
     });
 
     it('should revert if a SKU has token prices but does not include the reference token (adding)', async function () {
-      await expectRevert(
-        this.contract.callUnderscoreSetTokenPrices(sku, [await this.contract.TOKEN_ETH()], [One]),
-        'OracleSale: missing reference token'
-      );
+      await expectRevert(this.contract.callUnderscoreSetTokenPrices(sku, [await this.contract.TOKEN_ETH()], [One]), 'Sale: no reference token');
     });
 
     it('should revert if a SKU has token prices but does not include the reference token (removing)', async function () {
       await doUpdateSkuPricing.bind(this)();
-      await expectRevert(
-        this.contract.callUnderscoreSetTokenPrices(sku, [this.referenceToken.address], [Zero]),
-        'OracleSale: missing reference token'
-      );
+      await expectRevert(this.contract.callUnderscoreSetTokenPrices(sku, [this.referenceToken.address], [Zero]), 'Sale: no reference token');
     });
   });
 

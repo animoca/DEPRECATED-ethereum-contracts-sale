@@ -2,11 +2,10 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@animoca/ethereum-contracts-assets-1.1.2/contracts/token/ERC20/IERC20.sol";
-import "../oracle/interfaces/IUniswapV2Router.sol";
-import "../oracle/UniswapV2Adapter.sol";
-import "./abstract/SwapSale.sol";
+import {IUniswapV2Router} from "../oracle/interfaces/IUniswapV2Router.sol";
+import {UniswapV2Adapter} from "../oracle/UniswapV2Adapter.sol";
+import {ERC20Wrapper, IWrappedERC20} from "./FixedPricesSale.sol";
+import {SafeMath, SwapSale} from "./abstract/SwapSale.sol";
 
 /**
  * @title UniswapSwapSale
@@ -26,6 +25,7 @@ import "./abstract/SwapSale.sol";
  *    deriving contract).
  */
 contract UniswapSwapSale is SwapSale, UniswapV2Adapter {
+    using ERC20Wrapper for IWrappedERC20;
     using SafeMath for uint256;
 
     /**
@@ -51,8 +51,7 @@ contract UniswapSwapSale is SwapSale, UniswapV2Adapter {
      * @dev Reverts if the sender of ETH isn't the Uniswap V2 router.
      */
     receive() external payable {
-        // solhint-disable-next-line reason-string
-        require(_msgSender() == address(uniswapV2Router), "UniswapSwapSale: Invalid ETH sender");
+        require(_msgSender() == address(uniswapV2Router), "Sale: Invalid ETH sender");
     }
 
     /*                               Internal Life Cycle Functions                               */
@@ -65,8 +64,7 @@ contract UniswapSwapSale is SwapSale, UniswapV2Adapter {
      */
     function _validation(PurchaseData memory purchase) internal view virtual override {
         super._validation(purchase);
-        // solhint-disable-next-line reason-string
-        require(purchase.userData.length >= 64, "UniswapSwapSale: Missing expected purchase user data");
+        require(purchase.userData.length >= 64, "Sale: missing user data");
     }
 
     /**
@@ -91,8 +89,7 @@ contract UniswapSwapSale is SwapSale, UniswapV2Adapter {
                 maxFromAmount = type(uint256).max;
             }
 
-            // solhint-disable-next-line reason-string
-            require(IERC20(purchase.token).approve(address(uniswapV2Router), maxFromAmount), "UniswapSwapSale: ERC20 payment approval failed");
+            IWrappedERC20(purchase.token).wrappedApprove(address(uniswapV2Router), maxFromAmount);
         }
         super._payment(purchase);
     }

@@ -2,7 +2,8 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "./FixedPricesSale.sol";
+import {EnumSet} from "./abstract/Sale.sol";
+import {FixedPricesSale} from "./FixedPricesSale.sol";
 
 /**
  * @title FixedOrderInventorySale
@@ -39,9 +40,7 @@ contract FixedOrderInventorySale is FixedPricesSale {
             tokensPerSkuCapacity
         )
     {
-        // solhint-disable-next-line reason-string
-        require(inventory_ != address(0), "FixedOrderInventorySale: zero address inventory");
-
+        require(inventory_ != address(0), "Sale: zero address inventory");
         inventory = inventory_;
     }
 
@@ -58,14 +57,12 @@ contract FixedOrderInventorySale is FixedPricesSale {
         _requireOwnership(_msgSender());
         uint256 numTokens = tokens.length;
 
-        // solhint-disable-next-line reason-string
-        require(numTokens != 0, "FixedOrderInventorySale: empty tokens to add");
+        require(numTokens != 0, "Sale: empty tokens");
 
         for (uint256 i = 0; i != numTokens; ++i) {
             uint256 token = tokens[i];
 
-            // solhint-disable-next-line reason-string
-            require(token != 0, "FixedOrderInventorySale: adding zero token");
+            require(token != 0, "Sale: zero supply");
 
             tokenList.push(token);
         }
@@ -104,34 +101,29 @@ contract FixedOrderInventorySale is FixedPricesSale {
         _requireOwnership(_msgSender());
         uint256 tokenListLength = tokenList.length;
 
-        // solhint-disable-next-line reason-string
-        require(tokenListLength != 0, "FixedOrderInventorySale: empty token list");
+        // todo optimise checks
+
+        require(tokenListLength != 0, "Sale: empty tokens");
 
         uint256 numIndexes = indexes.length;
 
-        // solhint-disable-next-line reason-string
-        require(numIndexes != 0, "FixedOrderInventorySale: empty indexes");
+        require(numIndexes != 0, "Sale: empty indexes");
 
         uint256 numTokens = tokens.length;
 
-        // solhint-disable-next-line reason-string
-        require(numIndexes == numTokens, "FixedOrderInventorySale: array length mismatch");
+        require(numIndexes == numTokens, "Sale: inconsistent arrays");
 
         uint256 tokenIndex_ = tokenIndex;
 
         for (uint256 i = 0; i != numIndexes; ++i) {
             uint256 index = indexes[i];
 
-            // solhint-disable-next-line reason-string
-            require(index >= tokenIndex_, "FixedOrderInventorySale: invalid index");
-
-            // solhint-disable-next-line reason-string
-            require(index < tokenListLength, "FixedOrderInventorySale: index out-of-bounds");
+            require(index >= tokenIndex_, "Sale: invalid index");
+            require(index < tokenListLength, "Sale: index out-of-bounds");
 
             uint256 token = tokens[i];
 
-            // solhint-disable-next-line reason-string
-            require(token != 0, "FixedOrderInventorySale: zero token");
+            require(token != 0, "Sale: zero supply");
 
             tokenList[index] = token;
         }

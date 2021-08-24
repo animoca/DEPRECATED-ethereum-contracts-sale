@@ -4,7 +4,7 @@ const {Zero} = require('@animoca/ethereum-contracts-core').constants;
 
 const {shouldBeEqualWithETHDecimalPrecision} = require('@animoca/ethereum-contracts-core/test/utils/weiPrecision');
 
-const IERC20 = artifacts.require('@animoca/ethereum-contracts-assets-1.1.2/contracts/token/ERC20/IERC20.sol:IERC20');
+const IERC20 = artifacts.require('node_modules/@animoca/ethereum-contracts-assets/artifacts/contracts/token/ERC20/IERC20.sol:IERC20');
 
 /*
  * behavior overrides

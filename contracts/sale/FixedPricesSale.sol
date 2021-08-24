@@ -2,9 +2,8 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@animoca/ethereum-contracts-assets-1.1.2/contracts/token/ERC20/IERC20.sol";
-import "./abstract/Sale.sol";
+import {ERC20Wrapper, IWrappedERC20} from "@animoca/ethereum-contracts-core-1.1.2/contracts/utils/ERC20Wrapper.sol";
+import {EnumMap, EnumSet, SafeMath, Sale} from "./abstract/Sale.sol";
 
 /**
  * @title FixedPricesSale
@@ -12,6 +11,7 @@ import "./abstract/Sale.sol";
  *  The final implementer is responsible for implementing any additional pricing and/or delivery logic.
  */
 abstract contract FixedPricesSale is Sale {
+    using ERC20Wrapper for IWrappedERC20;
     using SafeMath for uint256;
     using EnumMap for EnumMap.Map;
 
@@ -61,7 +61,7 @@ abstract contract FixedPricesSale is Sale {
      */
     function _payment(PurchaseData memory purchase) internal virtual override {
         if (purchase.token == TOKEN_ETH) {
-            require(msg.value >= purchase.totalPrice, "Sale: insufficient ETH provided");
+            require(msg.value >= purchase.totalPrice, "Sale: insufficient ETH");
 
             payoutWallet.transfer(purchase.totalPrice);
 
@@ -71,7 +71,7 @@ abstract contract FixedPricesSale is Sale {
                 purchase.purchaser.transfer(change);
             }
         } else {
-            require(IERC20(purchase.token).transferFrom(_msgSender(), payoutWallet, purchase.totalPrice), "Sale: ERC20 payment failed");
+            IWrappedERC20(purchase.token).wrappedTransferFrom(_msgSender(), payoutWallet, purchase.totalPrice);
         }
     }
 

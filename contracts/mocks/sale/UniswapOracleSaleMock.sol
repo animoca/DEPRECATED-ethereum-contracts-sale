@@ -2,8 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../oracle/interfaces/IUniswapV2Router.sol";
-import "../../sale/UniswapOracleSale.sol";
+import {IUniswapV2Router, UniswapOracleSale} from "../../sale/UniswapOracleSale.sol";
 
 contract UniswapOracleSaleMock is UniswapOracleSale {
     constructor(

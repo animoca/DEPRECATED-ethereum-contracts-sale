@@ -2,9 +2,10 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "../interfaces/ISwapSale.sol";
-import "./OracleSale.sol";
+import {ISwapSale} from "../interfaces/ISwapSale.sol";
+import {EnumMap, SafeMath} from "./Sale.sol";
+import {IWrappedERC20, ERC20Wrapper} from "../FixedPricesSale.sol";
+import {OracleSale} from "./OracleSale.sol";
 
 /**
  * @title SwapSale
@@ -21,6 +22,7 @@ import "./OracleSale.sol";
  *  - [0] uint256: the actual payment price in terms of the purchase token.
  */
 abstract contract SwapSale is OracleSale, ISwapSale {
+    using ERC20Wrapper for IWrappedERC20;
     using SafeMath for uint256;
     using EnumMap for EnumMap.Map;
 
@@ -88,10 +90,10 @@ abstract contract SwapSale is OracleSale, ISwapSale {
         }
 
         if (purchase.token == TOKEN_ETH) {
-            // solhint-disable-next-line reason-string
-            require(msg.value >= purchase.totalPrice, "SwapSale: insufficient ETH provided");
+            require(msg.value >= purchase.totalPrice, "Sale: insufficient ETH");
         } else {
-            require(IERC20(purchase.token).transferFrom(_msgSender(), address(this), purchase.totalPrice), "SwapSale: ERC20 payment failed");
+            // todo remove this transfer
+            IWrappedERC20(purchase.token).wrappedTransferFrom(_msgSender(), address(this), purchase.totalPrice);
         }
 
         uint256 swapRate = uint256(purchase.pricingData[1]);
@@ -109,15 +111,14 @@ abstract contract SwapSale is OracleSale, ISwapSale {
             uint256 change = purchase.totalPrice.sub(fromAmount);
 
             if (change != 0) {
-                // solhint-disable-next-line reason-string
-                require(IERC20(purchase.token).transfer(purchase.purchaser, change), "SwapSale: ERC20 payment change failed");
+                IWrappedERC20(purchase.token).wrappedTransfer(purchase.purchaser, change);
             }
         }
 
         if (referenceToken == TOKEN_ETH) {
             payoutWallet.transfer(fromAmount);
         } else {
-            require(IERC20(referenceToken).transfer(payoutWallet, fromAmount), "SwapSale: ERC20 payout failed");
+            IWrappedERC20(referenceToken).wrappedTransfer(payoutWallet, fromAmount);
         }
     }
 

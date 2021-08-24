@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../sale/FixedOrderInventorySale.sol";
+import {FixedOrderInventorySale} from "../../sale/FixedOrderInventorySale.sol";
 
 /**
  * @title FixedOrderInventorySaleMock

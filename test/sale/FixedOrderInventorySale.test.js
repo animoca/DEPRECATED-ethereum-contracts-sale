@@ -98,7 +98,7 @@ describe('FixedOrderInventorySale', function () {
 
     describe('when `inventory_` is the zero address', function () {
       it('reverts', async function () {
-        await expectRevert(doDeploySale.bind(this)({inventory: ZeroAddress}), 'FixedOrderInventorySale: zero address inventory');
+        await expectRevert(doDeploySale.bind(this)({inventory: ZeroAddress}), 'Sale: zero address inventory');
       });
     });
 
@@ -142,13 +142,13 @@ describe('FixedOrderInventorySale', function () {
 
     describe('when `tokens` is empty', function () {
       it('reverts', async function () {
-        await expectRevert(this.sale.addSupply([], {from: deployer}), 'FixedOrderInventorySale: empty tokens to add');
+        await expectRevert(this.sale.addSupply([], {from: deployer}), 'Sale: empty tokens');
       });
     });
 
     describe('when any of `tokens` are zero', function () {
       it('reverts', async function () {
-        await expectRevert(this.sale.addSupply([token4, Zero, token5], {from: deployer}), 'FixedOrderInventorySale: adding zero token');
+        await expectRevert(this.sale.addSupply([token4, Zero, token5], {from: deployer}), 'Sale: zero supply');
       });
     });
 
@@ -219,7 +219,7 @@ describe('FixedOrderInventorySale', function () {
 
     context('when the token list is empty', function () {
       it('reverts', async function () {
-        await expectRevert(this.sale.setSupply([0], [token2], {from: deployer}), 'FixedOrderInventorySale: empty token list');
+        await expectRevert(this.sale.setSupply([0], [token2], {from: deployer}), 'Sale: empty tokens');
       });
     });
 
@@ -230,13 +230,13 @@ describe('FixedOrderInventorySale', function () {
 
       describe('when the lengths of `indexes` and `tokens` do not match', function () {
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([0], [token2, token3], {from: deployer}), 'FixedOrderInventorySale: array length mismatch');
+          await expectRevert(this.sale.setSupply([0], [token2, token3], {from: deployer}), 'Sale: inconsistent arrays');
         });
       });
 
       describe('when `indexes` is zero length', function () {
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([], [token2], {from: deployer}), 'FixedOrderInventorySale: empty indexes');
+          await expectRevert(this.sale.setSupply([], [token2], {from: deployer}), 'Sale: empty indexes');
         });
       });
 
@@ -258,25 +258,25 @@ describe('FixedOrderInventorySale', function () {
         });
 
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([0], [token2], {from: deployer}), 'FixedOrderInventorySale: invalid index');
+          await expectRevert(this.sale.setSupply([0], [token2], {from: deployer}), 'Sale: invalid index');
         });
       });
 
       describe('when any of `indexes` are out-of-bounds', function () {
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([tokens.length], [token2], {from: deployer}), 'FixedOrderInventorySale: index out-of-bounds');
+          await expectRevert(this.sale.setSupply([tokens.length], [token2], {from: deployer}), 'Sale: index out-of-bounds');
         });
       });
 
       describe('when `tokens` is zero length', function () {
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([0], [], {from: deployer}), 'FixedOrderInventorySale: array length mismatch');
+          await expectRevert(this.sale.setSupply([0], [], {from: deployer}), 'Sale: inconsistent arrays');
         });
       });
 
       describe('when any of `tokens` are zero', function () {
         it('reverts', async function () {
-          await expectRevert(this.sale.setSupply([0, 1, 2], [token2, Zero, token1], {from: deployer}), 'FixedOrderInventorySale: zero token');
+          await expectRevert(this.sale.setSupply([0, 1, 2], [token2, Zero, token1], {from: deployer}), 'Sale: zero supply');
         });
       });
 

@@ -2,16 +2,16 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/algo/EnumMap.sol";
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/algo/EnumSet.sol";
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/payment/PayoutWallet.sol";
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/lifecycle/Startable.sol";
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/lifecycle/Pausable.sol";
-import "@animoca/ethereum-contracts-core-1.1.1/contracts/utils/types/AddressIsContract.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "../interfaces/ISale.sol";
-import "../interfaces/IPurchaseNotificationsReceiver.sol";
-import "./PurchaseLifeCycles.sol";
+import {EnumMap} from "@animoca/ethereum-contracts-core-1.1.2/contracts/algo/EnumMap.sol";
+import {EnumSet} from "@animoca/ethereum-contracts-core-1.1.2/contracts/algo/EnumSet.sol";
+import {PayoutWallet} from "@animoca/ethereum-contracts-core-1.1.2/contracts/payment/PayoutWallet.sol";
+import {Startable} from "@animoca/ethereum-contracts-core-1.1.2/contracts/lifecycle/Startable.sol";
+import {Pausable} from "@animoca/ethereum-contracts-core-1.1.2/contracts/lifecycle/Pausable.sol";
+import {AddressIsContract} from "@animoca/ethereum-contracts-core-1.1.2/contracts/utils/types/AddressIsContract.sol";
+import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {ISale} from "../interfaces/ISale.sol";
+import {IPurchaseNotificationsReceiver} from "../interfaces/IPurchaseNotificationsReceiver.sol";
+import {PurchaseLifeCycles} from "./PurchaseLifeCycles.sol";
 
 /**
  * @title Sale
@@ -301,8 +301,7 @@ abstract contract Sale is PurchaseLifeCycles, ISale, PayoutWallet, Startable, Pa
         require(_skus.length() < _skusCapacity, "Sale: too many skus");
         require(_skus.add(sku), "Sale: sku already created");
         if (notificationsReceiver != address(0)) {
-            // solhint-disable-next-line reason-string
-            require(notificationsReceiver.isContract(), "Sale: receiver is not a contract");
+            require(notificationsReceiver.isContract(), "Sale: non-contract receiver");
         }
         SkuInfo storage skuInfo = _skuInfos[sku];
         skuInfo.totalSupply = totalSupply;
@@ -411,7 +410,6 @@ abstract contract Sale is PurchaseLifeCycles, ISale, PayoutWallet, Startable, Pa
 
         address notificationsReceiver = _skuInfos[purchase.sku].notificationsReceiver;
         if (notificationsReceiver != address(0)) {
-            // solhint-disable-next-line reason-string
             require(
                 IPurchaseNotificationsReceiver(notificationsReceiver).onPurchaseNotificationReceived(
                     purchase.purchaser,
@@ -425,7 +423,7 @@ abstract contract Sale is PurchaseLifeCycles, ISale, PayoutWallet, Startable, Pa
                     purchase.paymentData,
                     purchase.deliveryData
                 ) == IPurchaseNotificationsReceiver(address(0)).onPurchaseNotificationReceived.selector, // TODO precompute return value
-                "Sale: wrong receiver return value"
+                "Sale: notification refused"
             );
         }
     }

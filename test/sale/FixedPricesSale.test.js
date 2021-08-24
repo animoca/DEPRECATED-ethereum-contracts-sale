@@ -6,7 +6,7 @@ const {stringToBytes32} = require('../utils/bytes32');
 
 const Sale = artifacts.require('FixedPricesSaleMock');
 const ERC20 = artifacts.require('ERC20Mock');
-const IERC20 = artifacts.require('@animoca/ethereum-contracts-assets-1.1.2/contracts/token/ERC20/IERC20.sol:IERC20');
+const IERC20 = artifacts.require('node_modules/@animoca/ethereum-contracts-assets/artifacts/contracts/token/ERC20/IERC20.sol:IERC20');
 
 const sku = stringToBytes32('sku');
 const skuTotalSupply = Two;
@@ -110,7 +110,6 @@ describe('FixedPricesSale', function () {
         return this.contract.purchaseFor(purchase.recipient, purchase.token, purchase.sku, purchase.quantity, purchase.userData, {
           from: purchase.purchaser,
           value: etherValue,
-          gasPrice: 1,
         });
       }
 
@@ -166,7 +165,8 @@ describe('FixedPricesSale', function () {
 
             if (this.tokenAddress == this.ethTokenAddress) {
               const gasUsed = new BN(receipt.receipt.gasUsed);
-              balanceDiff.should.be.bignumber.equal(totalPrice.add(gasUsed));
+              const txFee = gasUsed.mul(new BN(receipt.receipt.effectiveGasPrice.slice(2), 'hex'));
+              balanceDiff.should.be.bignumber.equal(totalPrice.add(txFee));
             } else {
               balanceDiff.should.be.bignumber.equal(totalPrice);
             }
@@ -196,7 +196,7 @@ describe('FixedPricesSale', function () {
               },
               {amount: unitPrice}
             ),
-            useErc20 ? 'ERC20: insufficient allowance' : 'Sale: insufficient ETH provided'
+            useErc20 ? 'ERC20: insufficient allowance' : 'Sale: insufficient ETH'
           );
         });
       });

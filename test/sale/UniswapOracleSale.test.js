@@ -226,21 +226,21 @@ describe('UniswapOracleSale', function () {
     it('should revert if the source token to convert from is the zero address', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(ZeroAddress, tokens['TokenA'].contract.address, userData),
-        'UniswapV2Adapter: ZERO_ADDRESS'
+        'UniswapV2: zero address'
       );
     });
 
     it('should revert if the destination token to convert to is the zero address', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(tokens['TokenA'].contract.address, ZeroAddress, userData),
-        'UniswapV2Adapter: ZERO_ADDRESS'
+        'UniswapV2: zero address'
       );
     });
 
     it('should revert if the source and destination token are the same', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(tokens['TokenA'].contract.address, tokens['TokenA'].contract.address, userData),
-        'UniswapV2Adapter: IDENTICAL_ADDRESSES'
+        'UniswapV2: same addresses'
       );
     });
 

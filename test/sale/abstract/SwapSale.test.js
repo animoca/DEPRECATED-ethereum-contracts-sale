@@ -42,6 +42,8 @@ describe('SwapSale', function () {
       params.referenceToken || this.referenceToken.address,
       {from: params.owner || owner}
     );
+
+    this.ethTokenAddress = await this.contract.TOKEN_ETH();
   }
 
   async function doCreateSku(params = {}) {
@@ -55,7 +57,6 @@ describe('SwapSale', function () {
   }
 
   async function doUpdateSkuPricing(params = {}) {
-    this.ethTokenAddress = await this.contract.TOKEN_ETH();
     this.oraclePrice = await this.contract.PRICE_SWAP_VIA_ORACLE();
 
     const skuTokens = [this.referenceToken.address, this.ethTokenAddress, this.erc20Token.address];
@@ -94,7 +95,7 @@ describe('SwapSale', function () {
     });
 
     it('should revert if the oracle does not provide a swap rate for one of the pairs', async function () {
-      await expectRevert(this.contract.swapRates([this.ethTokenAddress], referenceTokenPrice, userData), 'SwapSale: undefined rate');
+      await expectRevert(this.contract.swapRates([this.ethTokenAddress], referenceTokenPrice, userData), 'Sale: undefined rate');
     });
 
     it(`should return the correct swap rates`, async function () {
@@ -232,7 +233,7 @@ describe('SwapSale', function () {
         describe('when the payment amount is insufficient', function () {
           it('should revert and not handle payment', async function () {
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'Sale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: recipient,
                 recipient: recipient,
@@ -289,7 +290,7 @@ describe('SwapSale', function () {
             const estimate = await this.contract.estimatePurchase(recipient, this.ethTokenAddress, sku, One, userData, {from: purchaser});
 
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'Sale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: purchaser,
                 recipient: recipient,

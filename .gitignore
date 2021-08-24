@@ -10,7 +10,8 @@ node_modules/
 !.env.example
 
 cache/
-artifacts*
+artifacts.bak*
+artifacts/*
 !artifacts/build-info/
 !artifacts/contracts/
 

@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../../sale/abstract/PurchaseLifeCycles.sol";
+import {PurchaseLifeCycles} from "../../../sale/abstract/PurchaseLifeCycles.sol";
 
 contract PurchaseLifeCyclesMock is PurchaseLifeCycles {
     event PurchaseLifeCyclePath(uint256 path);

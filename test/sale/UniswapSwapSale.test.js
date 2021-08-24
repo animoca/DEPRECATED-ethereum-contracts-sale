@@ -13,7 +13,7 @@ const WETH9 = artifacts.require('WETH9');
 
 const Sale = artifacts.require('UniswapSwapSaleMock');
 const ERC20 = artifacts.require('ERC20Mock');
-const IERC20 = artifacts.require('@animoca/ethereum-contracts-assets-1.1.2/contracts/token/ERC20/IERC20.sol:IERC20');
+const IERC20 = artifacts.require('node_modules/@animoca/ethereum-contracts-assets/artifacts/contracts/token/ERC20/IERC20.sol:IERC20');
 
 const skusCapacity = One;
 const tokensPerSkuCapacity = Four;
@@ -233,19 +233,13 @@ describe('UniswapSwapSale', function () {
     it('should revert if the purchase user data is undefined', async function () {
       const userData = '0x';
 
-      await expectRevert(
-        this.contract.callUnderscoreValidation(recipient, this.ethTokenAddress, sku, One, userData),
-        'UniswapSwapSale: Missing expected purchase user data'
-      );
+      await expectRevert(this.contract.callUnderscoreValidation(recipient, this.ethTokenAddress, sku, One, userData), 'Sale: missing user data');
     });
 
     it('should revert if the purchase user data is missing information', async function () {
       const userData = bytes32ArrayToBytes([uintToBytes32(Zero)]);
 
-      await expectRevert(
-        this.contract.callUnderscoreValidation(recipient, this.ethTokenAddress, sku, One, userData),
-        'UniswapSwapSale: Missing expected purchase user data'
-      );
+      await expectRevert(this.contract.callUnderscoreValidation(recipient, this.ethTokenAddress, sku, One, userData), 'Sale: missing user data');
     });
   });
 
@@ -387,7 +381,7 @@ describe('UniswapSwapSale', function () {
             const userData = bytes32ArrayToBytes([maxFromAmount, deadlineDuration]);
 
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'UniswapV2Adapter: INVALID_MAX_AMOUNT_IN',
+              'UniswapV2: invalid maxAmountIn',
               {
                 purchaser: recipient,
                 recipient: recipient,
@@ -422,7 +416,7 @@ describe('UniswapSwapSale', function () {
             const userData = bytes32ArrayToBytes([maxFromAmount, deadlineDuration]);
 
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'SwapSale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: recipient,
                 recipient: recipient,
@@ -545,7 +539,7 @@ describe('UniswapSwapSale', function () {
             const userData = bytes32ArrayToBytes([maxFromAmount, deadlineDuration]);
 
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'UniswapV2Adapter: INVALID_MAX_AMOUNT_IN',
+              'UniswapV2: invalid maxAmountIn',
               {
                 purchaser: purchaser,
                 recipient: recipient,
@@ -580,7 +574,7 @@ describe('UniswapSwapSale', function () {
             const userData = bytes32ArrayToBytes([maxFromAmount, deadlineDuration]);
 
             await shouldRevertAndNotHandlePayment.bind(this)(
-              'SwapSale: insufficient ETH provided',
+              'Sale: insufficient ETH',
               {
                 purchaser: purchaser,
                 recipient: recipient,
@@ -935,21 +929,21 @@ describe('UniswapSwapSale', function () {
     it('should revert if the source token to convert from is the zero address', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(ZeroAddress, tokens['TokenA'].contract.address, userData),
-        'UniswapV2Adapter: ZERO_ADDRESS'
+        'UniswapV2: zero address'
       );
     });
 
     it('should revert if the destination token to convert to is the zero address', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(tokens['TokenA'].contract.address, ZeroAddress, userData),
-        'UniswapV2Adapter: ZERO_ADDRESS'
+        'UniswapV2: zero address'
       );
     });
 
     it('should revert if the source and destination token are the same', async function () {
       await expectRevert(
         this.contract.callUnderscoreConversionRate(tokens['TokenA'].contract.address, tokens['TokenA'].contract.address, userData),
-        'UniswapV2Adapter: IDENTICAL_ADDRESSES'
+        'UniswapV2: same addresses'
       );
     });
 
@@ -1189,7 +1183,7 @@ describe('UniswapSwapSale', function () {
           const data = bytes32ArrayToBytes([maxFromAmount, deadlineDuration]);
 
           await shouldRevertAndNotHandleSwap.bind(this)(
-            'UniswapV2Adapter: INVALID_MAX_AMOUNT_IN',
+            'UniswapV2: invalid maxAmountIn',
             {
               fromToken: fromToken,
               fromAmount: fromAmount,

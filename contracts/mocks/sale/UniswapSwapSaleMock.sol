@@ -2,11 +2,11 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../oracle/interfaces/IUniswapV2Router.sol";
-import "../../oracle/UniswapV2Adapter.sol";
-import "../../sale/UniswapSwapSale.sol";
+import {ERC20Wrapper, IWrappedERC20} from "../../sale/FixedPricesSale.sol";
+import {UniswapV2Adapter, IUniswapV2Router, UniswapSwapSale} from "../../sale/UniswapSwapSale.sol";
 
 contract UniswapSwapSaleMock is UniswapSwapSale {
+    using ERC20Wrapper for IWrappedERC20;
     event UnderscoreSwapResult(uint256 fromAmount);
 
     constructor(
@@ -114,12 +114,10 @@ contract UniswapSwapSaleMock is UniswapSwapSale {
         bytes calldata data
     ) external payable {
         if (fromToken != TOKEN_ETH) {
-            // solhint-disable-next-line reason-string
-            require(IERC20(fromToken).approve(address(uniswapV2Router), fromAmount), "UniswapSwapSaleMock: ERC20 swap approval failed");
-            // solhint-disable-next-line reason-string
-            require(IERC20(fromToken).allowance(msg.sender, address(this)) >= fromAmount, "UniswapSwapSaleMock: ERC20 allowance insufficient");
-            // solhint-disable-next-line reason-string
-            require(IERC20(fromToken).transferFrom(msg.sender, address(this), fromAmount), "UniswapSwapSaleMock: ERC20 transfer from failed");
+            IWrappedERC20(fromToken).wrappedApprove(address(uniswapV2Router), fromAmount);
+            // todo re-enable?
+            // require(IERC20(fromToken).allowance(msg.sender, address(this)) >= fromAmount, "Sale: insufficient allowance");
+            IWrappedERC20(fromToken).wrappedTransferFrom(msg.sender, address(this), fromAmount);
         }
         fromAmount = _swap(fromToken, toToken, toAmount, data);
         emit UnderscoreSwapResult(fromAmount);

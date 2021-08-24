@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../sale/FixedPricesSale.sol";
+import {FixedPricesSale} from "../../sale/FixedPricesSale.sol";
 
 contract FixedPricesSaleMock is FixedPricesSale {
     /**

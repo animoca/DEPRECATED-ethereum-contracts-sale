@@ -1,7 +1,5 @@
 const {artifacts, web3} = require('hardhat');
 
-const {ZeroAddress} = require('@animoca/ethereum-contracts-core').constants;
-
 const UniswapV2Factory = artifacts.require('UniswapV2Factory');
 const UniswapV2Router = artifacts.require('UniswapV2Router02');
 const RouterEventEmitter = artifacts.require('RouterEventEmitter');

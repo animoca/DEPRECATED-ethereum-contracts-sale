@@ -2,10 +2,9 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "../oracle/interfaces/IUniswapV2Router.sol";
-import "../oracle/UniswapV2Adapter.sol";
-import "./abstract/OracleSale.sol";
+import {IUniswapV2Router} from "../oracle/interfaces/IUniswapV2Router.sol";
+import {UniswapV2Adapter} from "../oracle/UniswapV2Adapter.sol";
+import {SafeMath, OracleSale} from "./abstract/OracleSale.sol";
 
 /**
  * @title UniswapOracleSale

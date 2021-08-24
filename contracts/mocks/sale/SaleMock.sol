@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "../../sale/abstract/Sale.sol";
+import {EnumSet, EnumMap, Sale} from "../../sale/abstract/Sale.sol";
 
 contract SaleMock is Sale {
     using EnumSet for EnumSet.Set;

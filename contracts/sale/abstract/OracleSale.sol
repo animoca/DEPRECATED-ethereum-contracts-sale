@@ -2,9 +2,8 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "../FixedPricesSale.sol";
-import "../interfaces/IOracleSale.sol";
+import {IOracleSale} from "../interfaces/IOracleSale.sol";
+import {EnumMap, SafeMath, FixedPricesSale} from "../FixedPricesSale.sol";
 
 /**
  * @title OracleSale
@@ -107,8 +106,7 @@ abstract contract OracleSale is IOracleSale, FixedPricesSale {
         uint256[] memory prices
     ) internal virtual override {
         super._setTokenPrices(tokenPrices, tokens, prices);
-        // solhint-disable-next-line reason-string
-        require(tokenPrices.length() == 0 || tokenPrices.contains(bytes32(uint256(referenceToken))), "OracleSale: missing reference token");
+        require(tokenPrices.length() == 0 || tokenPrices.contains(bytes32(uint256(referenceToken))), "Sale: no reference token");
     }
 
     /**
