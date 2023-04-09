@@ -14,7 +14,7 @@
   "author": "Animoca Brands",
   "repository": {
     "type": "git",
-    "url": "git@github.com:animoca/ethereum-contracts-sale.git"
+    "url": "git@github.com:animoca/DEPRECATED-ethereum-contracts-sale.git"
   },
   "main": "src/index.js",
   "scripts": {
