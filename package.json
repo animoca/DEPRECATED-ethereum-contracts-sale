@@ -1,6 +1,6 @@
 {
   "name": "@animoca/ethereum-contracts-sale",
-  "version": "2.0.0",
+  "version": "3.0.0-rc.0",
   "description": "Solidity sale contracts",
   "keywords": [
     "animoca",
@@ -18,7 +18,6 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "postinstall": "animoca-setup-vscode",
     "lint:js": "eslint \"**/*.{js,ts}\" --no-error-on-unmatched-pattern",
     "lint:sol": "solhint \"contracts/**/*.sol\" -c node_modules/@animoca/ethereum-contracts-core/.solhint.json",
     "lint": "run-s lint:js lint:sol",
@@ -39,11 +38,11 @@
     "doc": "run-s doc:sol",
     "clean:vscode": "rm -rf .vscode/extensions.json .vscode/launch.json .vscode/settings.json",
     "clean:compile": "rm -rf cache",
-    "clean:artifacts:soft": "animoca-clean-artifacts",
+    "clean:artifacts:soft": "find \"artifacts/*\" | grep -v '^artifacts/build-info\\|^artifacts/contracts' | xargs rm -rf",
     "clean:artifacts:hard": "rm -rf artifacts",
     "clean:flatten": "rm -rf flattened",
-    "clean:smartcheck": "rm -rf smartcheck*",
-    "clean:coverage": "rm -rf coverage* .coverage*",
+    "clean:smartcheck": "rm -rf \"smartcheck*\"",
+    "clean:coverage": "rm -rf \"coverage*\" \".coverage*\"",
     "clean:doc": "rm -rf docs",
     "clean:contracts": "run-p clean:compile clean:artifacts:soft clean:flatten clean:smartcheck clean:coverage clean:doc",
     "clean": "run-s clean:contracts",
@@ -63,21 +62,24 @@
     "@openzeppelin/contracts": "=3.4.0",
     "@uniswap/v2-core": "=1.0.1",
     "@uniswap/v2-periphery": "=1.1.0-beta.0",
+    "chai": "^4.3.7",
+    "eslint": "^8.42.0",
+    "eslint-config-mocha": "^0.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "ethereum-universal-forwarder": "^0.1.4",
-    "hardhat": "^2.6.1"
-  },
-  "peerDependencies": {
-    "@animoca/blockchain-inventory_metadata": "=0.1.0",
-    "@animoca/ethereum-contracts-assets": "^1.1.4",
-    "@animoca/ethereum-contracts-core": "^1.1.2",
-    "@animoca/ethereum-contracts-core-1.1.2": "npm:@animoca/ethereum-contracts-core@1.1.2",
-    "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
-    "@openzeppelin/contracts": "=3.4.0",
-    "@uniswap/v2-core": "=1.0.1",
-    "@uniswap/v2-periphery": "=1.1.0-beta.0",
-    "hardhat": "^2.6.1"
-  },
-  "engines": {
-    "node": ">=12.18 <13"
+    "ethers": "^5.7.2",
+    "hardhat": "^2.15.0",
+    "hardhat-deploy": "^0.11.30",
+    "hardhat-deploy-ethers": "^0.3.0-beta.13",
+    "mocha": "^10.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.8",
+    "prettier-plugin-solidity": "^1.1.3",
+    "solhint": "^3.4.1",
+    "solhint-plugin-prettier": "^0.0.5",
+    "solidity-coverage": "^0.8.2",
+    "solidity-docgen": "^0.6.0-beta.35"
   }
 }
