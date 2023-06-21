@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.6 <0.8.0;
 
-import {SafeCast} from "@openzeppelin/contracts/utils/SafeCast.sol";
+import {SafeCast} from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import {EnumMap, SafeMath, SwapSale} from "../../../sale/abstract/SwapSale.sol";
 
 contract SwapSaleMock is SwapSale {

@@ -8,7 +8,7 @@ import {PayoutWallet} from "@animoca/ethereum-contracts-core-1.1.2/contracts/pay
 import {Startable} from "@animoca/ethereum-contracts-core-1.1.2/contracts/lifecycle/Startable.sol";
 import {Pausable} from "@animoca/ethereum-contracts-core-1.1.2/contracts/lifecycle/Pausable.sol";
 import {AddressIsContract} from "@animoca/ethereum-contracts-core-1.1.2/contracts/utils/types/AddressIsContract.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {ISale} from "../interfaces/ISale.sol";
 import {IPurchaseNotificationsReceiver} from "../interfaces/IPurchaseNotificationsReceiver.sol";
 import {PurchaseLifeCycles} from "./PurchaseLifeCycles.sol";
