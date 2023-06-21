@@ -1,6 +1,6 @@
 {
   "name": "@animoca/ethereum-contracts-sale",
-  "version": "3.0.0-rc.0",
+  "version": "3.0.0-rc.1",
   "description": "Solidity sale contracts",
   "keywords": [
     "animoca",
@@ -48,17 +48,15 @@
     "clean": "run-s clean:contracts",
     "run-all:contracts": "run-s format fix clean:contracts clean:artifacts:hard compile flatten smartcheck test coverage doc",
     "run-all": "run-s run-all:contracts",
-    "prepack:contracts": "run-s clean:artifacts:hard compile clean clean:vscode",
-    "prepack": "run-s prepack:contracts",
     "release:private": "animoca-release-package private",
     "release:public": "animoca-release-package public"
   },
   "devDependencies": {
     "@animoca/blockchain-inventory_metadata": "=0.1.0",
     "@animoca/ethereum-contracts-assets": "^1.1.4",
-    "@animoca/ethereum-contracts-core": "^1.1.2",
-    "@animoca/ethereum-contracts-core-1.1.2": "npm:@animoca/ethereum-contracts-core@1.1.2",
-    "@animoca/ethereum-hardhat-bootstrap": "^1.0.1",
+    "@animoca/ethereum-contracts-core": "^2.0.0-rc.0",
+    "@animoca/ethereum-contracts-core-1.1.2": "npm:@animoca/ethereum-contracts-core@2.0.0-rc.0",
+    "@animoca/ethereum-hardhat-bootstrap": "^2.0.0-rc.0",
     "@openzeppelin/contracts": "=3.4.0",
     "@uniswap/v2-core": "=1.0.1",
     "@uniswap/v2-periphery": "=1.1.0-beta.0",
